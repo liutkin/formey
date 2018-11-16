@@ -1,4 +1,4 @@
-import setTrimmedAttr from './setTrimmedAttr';
+import setTrimmedAttr from '../src/setTrimmedAttr';
 
 test('must set given attr', () => {
   const el = document.createElement('div');

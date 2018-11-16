@@ -1,4 +1,4 @@
-import removeAttrs from './removeAttrs';
+import removeAttrs from '../src/removeAttrs';
 
 test('must remove given attribute from element', () => {
   const el1 = document.createElement('div');

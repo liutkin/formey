@@ -1,4 +1,4 @@
-import disableFormControls from './disableFormControls';
+import disableFormControls from '../src/disableFormControls';
 
 test('must disable every button, input, select and textarea', () => {
   const controls = [];

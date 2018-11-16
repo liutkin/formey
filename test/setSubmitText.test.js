@@ -1,4 +1,4 @@
-import setSubmitText from './setSubmitText';
+import setSubmitText from '../src/setSubmitText';
 
 test('must set text to buttons', () => {
   const buttonEl = document.createElement('button');

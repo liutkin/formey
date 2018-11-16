@@ -1,4 +1,4 @@
-import defaultOptions from './defaultOptions';
+import defaultOptions from '../src/defaultOptions';
 
 test('must be an object', () => {
   expect(typeof defaultOptions).toBe('object');

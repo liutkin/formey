@@ -1,4 +1,4 @@
-import getFirstSubmitTrigger from './getFirstSubmitTrigger';
+import getFirstSubmitTrigger from '../src/getFirstSubmitTrigger';
 
 test('must return first submit trigger element met', () => {
   const formEl = document.createElement('form');

@@ -1,4 +1,4 @@
-import getTrimmedAttr from './getTrimmedAttr';
+import getTrimmedAttr from '../src/getTrimmedAttr';
 
 test('must return trimmed attr value', () => {
   const el = document.createElement('div');
