@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Simple JavaScript dialog with ability to pass dynamic data declaratively">
+    <meta name="keywords" content="javascript, dynamic, modal, dialog, no dependencies">
+    <meta property="og:title" content="🕶️ Dimmer JS · Examples">
+    <meta property="og:description" content="Simple JavaScript dialog with ability to pass dynamic data declaratively">
+    <title>🕶️ Dimmer JS · Examples</title>
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css">
+    <link rel="stylesheet" href="https://unpkg.com/cocktailcss">
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <div class="padding-4">
+      <div>
+        <a href="https://github.com/lyutkin/form-submit-once">← Back to the repository</a>
+      </div>
+      <div class="padding-top-5">
+        <form data-submit-once>
+          <fieldset>
+            <input type="text" name="login">
+            <input type="password" name="password">
+          </fieldset>
+          <button data-submit-text='Sending...'>Send</button>
+        </form>
+      </div>
+    </div>
+    <script src="https://unpkg.com/dimmer"></script>
+    <script src="../dist/formey.min.js"></script>
+    <script>
+      formey();
+    </script>
+  </body>
+</html>
