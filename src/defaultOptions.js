@@ -1,4 +1,5 @@
 export default {
-  formAttributeName: 'data-submit-once',
-  progressTextAttributeName: 'data-submit-text',
+  formAttr: 'data-submit-once',
+  submitTextAttr: 'data-submit-text',
+  submitInProcessAttr: false,
 };

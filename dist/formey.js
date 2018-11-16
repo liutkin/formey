@@ -5,9 +5,44 @@
 }(this, (function () { 'use strict';
 
   var defaultOptions = {
-    formAttributeName: 'data-submit-once',
-    progressTextAttributeName: 'data-submit-text'
+    formAttr: 'data-submit-once',
+    submitTextAttr: 'data-submit-text',
+    submitInProcessAttr: false
   };
+
+  var getFirstSubmitTrigger = (function (formEl) {
+    return Array.prototype.find.call(formEl.querySelectorAll('button, input'), function (el) {
+      return el.type === 'submit';
+    });
+  });
+
+  var getTrimmedAttr = (function (el, attr) {
+    return el.getAttribute(attr) && el.getAttribute(attr).trim();
+  });
+
+  var removeAttrs = (function (list) {
+    return list.forEach(function (item) {
+      return item.el.removeAttribute(item.attr);
+    });
+  });
+
+  var disableFormControls = (function (formEl) {
+    return formEl.querySelectorAll('button, input, select, textarea').forEach(function (el) {
+      return el.disabled = true;
+    });
+  });
+
+  var setSubmitText = (function (el, text) {
+    if (el.tagName === 'BUTTON') {
+      el.textContent = text || el.textContent;
+    } else if (el.tagName === 'INPUT') {
+      el.value = text || el.value;
+    }
+  });
+
+  var setTrimmedAttr = (function (el, attr) {
+    return attr && el.setAttribute(attr.trim(), true);
+  });
 
   var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -15,39 +50,32 @@
     var userOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     var options = _extends({}, defaultOptions, userOptions);
-    var formAttributeName = options.formAttributeName,
-        progressTextAttributeName = options.progressTextAttributeName;
+    var formAttr = options.formAttr,
+        submitTextAttr = options.submitTextAttr,
+        submitInProcessAttr = options.submitInProcessAttr;
 
 
-    document.querySelectorAll('[' + formAttributeName + ']').forEach(function (formEl) {
-      var buttonsAndInputsEls = formEl.querySelectorAll('button, input');
-      var submitEl = Array.prototype.find.call(buttonsAndInputsEls, function (el) {
-        return el.type === 'submit';
-      });
-      var dataProgressText = submitEl.getAttribute(progressTextAttributeName);
-      var progressText = dataProgressText && dataProgressText.trim();
+    document.querySelectorAll('[' + formAttr + ']').forEach(function (formEl) {
+      var submitEl = getFirstSubmitTrigger(formEl);
+      var submitText = getTrimmedAttr(submitEl, submitTextAttr);
+      var formSubmitted = false;
 
-      formEl.removeAttribute(formAttributeName);
-      submitEl.removeAttribute(progressTextAttributeName);
+      removeAttrs([{ el: formEl, attr: formAttr }, { el: submitEl, attr: submitTextAttr }]);
 
       formEl.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        if (formSubmitted) return;
+
         formEl.submit();
 
-        formEl.querySelectorAll('fieldset').forEach(function (fieldsetEl) {
-          return fieldsetEl.disabled = true;
-        });
-
-        submitEl.disabled = true;
-
-        if (submitEl.tagName === 'BUTTON') {
-          submitEl.textContent = progressText || submitEl.textContent;
-        } else {
-          submitEl.value = progressText || submitEl.value;
-        }
+        disableFormControls(formEl);
+        setSubmitText(submitEl, submitText);
+        setTrimmedAttr(submitEl, submitInProcessAttr);
 
         submitEl.style.cursor = 'not-allowed';
+
+        formSubmitted = true;
       });
     });
   }

@@ -1,47 +1,39 @@
 import defaultOptions from './defaultOptions';
+import getFirstSubmitTrigger from './getFirstSubmitTrigger';
+import getTrimmedAttr from './getTrimmedAttr';
+import removeAttrs from './removeAttrs';
+import disableFormControls from './disableFormControls';
+import setSubmitText from './setSubmitText';
+import setTrimmedAttr from './setTrimmedAttr';
 
 export default function formey(userOptions = {}) {
   const options = { ...defaultOptions, ...userOptions };
-  const { formAttributeName, progressTextAttributeName } = options;
+  const { formAttr, submitTextAttr, submitInProcessAttr } = options;
 
-  document.querySelectorAll(`[${formAttributeName}]`).forEach(formEl => {
-    const buttonsAndInputsEls = formEl.querySelectorAll('button, input');
-    const submitEl = Array.prototype.find.call(
-      buttonsAndInputsEls,
-      el => el.type === 'submit',
-    );
-    const dataProgressText = submitEl.getAttribute(progressTextAttributeName);
-    const progressText = dataProgressText && dataProgressText.trim();
-    const state = {
-      formSubmitted: false,
-      progressText,
-    };
+  document.querySelectorAll(`[${formAttr}]`).forEach(formEl => {
+    const submitEl = getFirstSubmitTrigger(formEl);
+    const submitText = getTrimmedAttr(submitEl, submitTextAttr);
+    let formSubmitted = false;
 
-    formEl.removeAttribute(formAttributeName);
-    submitEl.removeAttribute(progressTextAttributeName);
+    removeAttrs([
+      { el: formEl, attr: formAttr },
+      { el: submitEl, attr: submitTextAttr },
+    ]);
 
     formEl.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      if (state.isFormSubmitted) return;
+      if (formSubmitted) return;
 
       formEl.submit();
 
-      formEl
-        .querySelectorAll('fieldset')
-        .forEach(fieldsetEl => (fieldsetEl.disabled = true));
-
-      submitEl.disabled = true;
-
-      if (submitEl.tagName === 'BUTTON') {
-        submitEl.textContent = progressText || submitEl.textContent;
-      } else {
-        submitEl.value = progressText || submitEl.value;
-      }
+      disableFormControls(formEl);
+      setSubmitText(submitEl, submitText);
+      setTrimmedAttr(submitEl, submitInProcessAttr);
 
       submitEl.style.cursor = 'not-allowed';
 
-      state.formSubmitted = true;
+      formSubmitted = true;
     });
   });
 }

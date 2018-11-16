@@ -1,42 +1,63 @@
 var defaultOptions = {
-  formAttributeName: 'data-submit-once',
-  progressTextAttributeName: 'data-submit-text',
+  formAttr: 'data-submit-once',
+  submitTextAttr: 'data-submit-text',
+  submitInProcessAttr: false,
 };
+
+var getFirstSubmitTrigger = formEl =>
+  Array.prototype.find.call(
+    formEl.querySelectorAll('button, input'),
+    el => el.type === 'submit',
+  );
+
+var getTrimmedAttr = (el, attr) =>
+  el.getAttribute(attr) && el.getAttribute(attr).trim();
+
+var removeAttrs = list => list.forEach(item => item.el.removeAttribute(item.attr));
+
+var disableFormControls = formEl =>
+  formEl
+    .querySelectorAll('button, input, select, textarea')
+    .forEach(el => (el.disabled = true));
+
+var setSubmitText = (el, text) => {
+  if (el.tagName === 'BUTTON') {
+    el.textContent = text || el.textContent;
+  } else if (el.tagName === 'INPUT') {
+    el.value = text || el.value;
+  }
+};
+
+var setTrimmedAttr = (el, attr) => attr && el.setAttribute(attr.trim(), true);
 
 function formey(userOptions = {}) {
   const options = { ...defaultOptions, ...userOptions };
-  const { formAttributeName, progressTextAttributeName } = options;
+  const { formAttr, submitTextAttr, submitInProcessAttr } = options;
 
-  document.querySelectorAll(`[${formAttributeName}]`).forEach(formEl => {
-    const buttonsAndInputsEls = formEl.querySelectorAll('button, input');
-    const submitEl = Array.prototype.find.call(
-      buttonsAndInputsEls,
-      el => el.type === 'submit',
-    );
-    const dataProgressText = submitEl.getAttribute(progressTextAttributeName);
-    const progressText = dataProgressText && dataProgressText.trim();
+  document.querySelectorAll(`[${formAttr}]`).forEach(formEl => {
+    const submitEl = getFirstSubmitTrigger(formEl);
+    const submitText = getTrimmedAttr(submitEl, submitTextAttr);
+    let formSubmitted = false;
 
-    formEl.removeAttribute(formAttributeName);
-    submitEl.removeAttribute(progressTextAttributeName);
+    removeAttrs([
+      { el: formEl, attr: formAttr },
+      { el: submitEl, attr: submitTextAttr },
+    ]);
 
     formEl.addEventListener('submit', function(e) {
       e.preventDefault();
 
+      if (formSubmitted) return;
+
       formEl.submit();
 
-      formEl
-        .querySelectorAll('fieldset')
-        .forEach(fieldsetEl => (fieldsetEl.disabled = true));
-
-      submitEl.disabled = true;
-
-      if (submitEl.tagName === 'BUTTON') {
-        submitEl.textContent = progressText || submitEl.textContent;
-      } else {
-        submitEl.value = progressText || submitEl.value;
-      }
+      disableFormControls(formEl);
+      setSubmitText(submitEl, submitText);
+      setTrimmedAttr(submitEl, submitInProcessAttr);
 
       submitEl.style.cursor = 'not-allowed';
+
+      formSubmitted = true;
     });
   });
 }
