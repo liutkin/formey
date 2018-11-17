@@ -8,17 +8,23 @@ import setTrimmedAttr from './setTrimmedAttr';
 
 export default function formey(userOptions = {}) {
   const options = { ...defaultOptions, ...userOptions };
-  const { formAttr, submitTextAttr, submitInProcessAttr } = options;
+  const {
+    formAttr,
+    submitTextAttr,
+    submitInProcessAttr,
+    clearAttrsOnInit,
+  } = options;
 
   document.querySelectorAll(`[${formAttr}]`).forEach(formEl => {
     const submitEl = getFirstSubmitTrigger(formEl);
     const submitText = getTrimmedAttr(submitEl, submitTextAttr);
     let formSubmitted = false;
 
-    removeAttrs([
-      { el: formEl, attr: formAttr },
-      { el: submitEl, attr: submitTextAttr },
-    ]);
+    clearAttrsOnInit &&
+      removeAttrs([
+        { el: formEl, attr: formAttr },
+        { el: submitEl, attr: submitTextAttr },
+      ]);
 
     formEl.addEventListener('submit', function(e) {
       e.preventDefault();

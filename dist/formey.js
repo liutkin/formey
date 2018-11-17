@@ -7,7 +7,8 @@
   var defaultOptions = {
     formAttr: 'data-submit-once',
     submitTextAttr: 'data-submit-text',
-    submitInProcessAttr: false
+    submitInProcessAttr: false,
+    clearAttrsOnInit: true
   };
 
   var getFirstSubmitTrigger = (function (formEl) {
@@ -52,7 +53,8 @@
     var options = _extends({}, defaultOptions, userOptions);
     var formAttr = options.formAttr,
         submitTextAttr = options.submitTextAttr,
-        submitInProcessAttr = options.submitInProcessAttr;
+        submitInProcessAttr = options.submitInProcessAttr,
+        clearAttrsOnInit = options.clearAttrsOnInit;
 
 
     document.querySelectorAll('[' + formAttr + ']').forEach(function (formEl) {
@@ -60,7 +62,7 @@
       var submitText = getTrimmedAttr(submitEl, submitTextAttr);
       var formSubmitted = false;
 
-      removeAttrs([{ el: formEl, attr: formAttr }, { el: submitEl, attr: submitTextAttr }]);
+      clearAttrsOnInit && removeAttrs([{ el: formEl, attr: formAttr }, { el: submitEl, attr: submitTextAttr }]);
 
       formEl.addEventListener('submit', function (e) {
         e.preventDefault();

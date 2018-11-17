@@ -111,7 +111,8 @@ formey({
 | - | - | - | - |
 | `formAttr` | `String` | `data-submit-once` | Data attribute to mark form to be processed. |
 | `submitTextAttr` | `String` | `data-submit-text` | Data attribute to specify custom text label for submit trigger element. |
-| `submitInProcessAttr` | `String` | `false` | Specified data attribute will be added to the given element after form is being submitted *(Tip: May be usefull for custom CSS styling)*. |
+| `submitInProcessAttr` | `String` | `false` | Specified data attribute will be added to the given element after form is being submitted. *(Tip: May be useful for custom CSS styling)* |
+| `clearAttrsOnInit` | `Boolean` | `true` | Remove formey data attributes from HTML elements after init. |
 
 # License
 
