@@ -37,6 +37,7 @@ export default function formey(userOptions = {}) {
       setSubmitText(submitEl, submitText);
       setTrimmedAttr(submitEl, submitInProcessAttr);
 
+      submitEl.disabled = true;
       submitEl.style.cursor = 'not-allowed';
 
       formSubmitted = true;

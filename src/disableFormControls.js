@@ -1,4 +1,4 @@
 export default formEl =>
   formEl
     .querySelectorAll('button, input, select, textarea')
-    .forEach(el => (el.disabled = true));
+    .forEach(el => (el.readOnly = true));

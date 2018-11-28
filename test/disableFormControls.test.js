@@ -33,6 +33,6 @@ test('must disable every button, input, select and textarea', () => {
   disableFormControls(formEl);
 
   controls.forEach(el => {
-    expect(el.disabled).toBe(true);
+    expect(el.readOnly).toBe(true);
   });
 });

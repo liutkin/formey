@@ -29,7 +29,7 @@
 
   var disableFormControls = (function (formEl) {
     return formEl.querySelectorAll('button, input, select, textarea').forEach(function (el) {
-      return el.disabled = true;
+      return el.readOnly = true;
     });
   });
 
@@ -75,6 +75,7 @@
         setSubmitText(submitEl, submitText);
         setTrimmedAttr(submitEl, submitInProcessAttr);
 
+        submitEl.disabled = true;
         submitEl.style.cursor = 'not-allowed';
 
         formSubmitted = true;
