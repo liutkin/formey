@@ -29,7 +29,7 @@
 
   var disableFormControls = (function (formEl) {
     return formEl.querySelectorAll('button, input, select, textarea').forEach(function (el) {
-      return el.readOnly = true;
+      return el.setAttribute('readonly', 'readonly');
     });
   });
 
@@ -71,12 +71,12 @@
 
         formEl.submit();
 
+        submitEl.disabled = true;
+        submitEl.style.cursor = 'not-allowed';
+
         disableFormControls(formEl);
         setSubmitText(submitEl, submitText);
         setTrimmedAttr(submitEl, submitInProcessAttr);
-
-        submitEl.disabled = true;
-        submitEl.style.cursor = 'not-allowed';
 
         formSubmitted = true;
       });

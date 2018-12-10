@@ -19,7 +19,7 @@ var removeAttrs = list => list.forEach(item => item.el.removeAttribute(item.attr
 var disableFormControls = formEl =>
   formEl
     .querySelectorAll('button, input, select, textarea')
-    .forEach(el => (el.readOnly = true));
+    .forEach(el => el.setAttribute('readonly', 'readonly'));
 
 var setSubmitText = (el, text) => {
   if (el.tagName === 'BUTTON') {
@@ -58,12 +58,12 @@ function formey(userOptions = {}) {
 
       formEl.submit();
 
+      submitEl.disabled = true;
+      submitEl.style.cursor = 'not-allowed';
+
       disableFormControls(formEl);
       setSubmitText(submitEl, submitText);
       setTrimmedAttr(submitEl, submitInProcessAttr);
-
-      submitEl.disabled = true;
-      submitEl.style.cursor = 'not-allowed';
 
       formSubmitted = true;
     });

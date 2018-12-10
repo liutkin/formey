@@ -33,12 +33,12 @@ export default function formey(userOptions = {}) {
 
       formEl.submit();
 
+      submitEl.disabled = true;
+      submitEl.style.cursor = 'not-allowed';
+
       disableFormControls(formEl);
       setSubmitText(submitEl, submitText);
       setTrimmedAttr(submitEl, submitInProcessAttr);
-
-      submitEl.disabled = true;
-      submitEl.style.cursor = 'not-allowed';
 
       formSubmitted = true;
     });
