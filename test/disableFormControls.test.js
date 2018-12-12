@@ -1,6 +1,6 @@
 import disableFormControls from '../src/disableFormControls';
 
-test('must disable every button, input, select and textarea', () => {
+test('must disable every input, select and textarea', () => {
   const controls = [];
   const formEl = document.createElement('form');
   const inputTypes = [
@@ -10,7 +10,6 @@ test('must disable every button, input, select and textarea', () => {
     'password',
     'tel',
     'search',
-    'button',
     'date',
     'checkbox',
     'radio',
@@ -23,11 +22,9 @@ test('must disable every button, input, select and textarea', () => {
     controls.push(inputEl);
     formEl.appendChild(inputEl);
   });
-  const buttonEl = document.createElement('button');
   const textareaEl = document.createElement('textarea');
-  controls.push(buttonEl, textareaEl);
+  controls.push(textareaEl);
 
-  formEl.appendChild(buttonEl);
   formEl.appendChild(textareaEl);
 
   disableFormControls(formEl);

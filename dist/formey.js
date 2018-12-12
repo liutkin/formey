@@ -28,7 +28,7 @@
   });
 
   var disableFormControls = (function (formEl) {
-    return formEl.querySelectorAll('button, input, select, textarea').forEach(function (el) {
+    return formEl.querySelectorAll('input, select, textarea').forEach(function (el) {
       return el.setAttribute('readonly', 'readonly');
     });
   });

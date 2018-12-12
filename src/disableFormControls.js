@@ -1,4 +1,4 @@
 export default formEl =>
   formEl
-    .querySelectorAll('button, input, select, textarea')
+    .querySelectorAll('input, select, textarea')
     .forEach(el => el.setAttribute('readonly', 'readonly'));

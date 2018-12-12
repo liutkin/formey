@@ -18,7 +18,7 @@ var removeAttrs = list => list.forEach(item => item.el.removeAttribute(item.attr
 
 var disableFormControls = formEl =>
   formEl
-    .querySelectorAll('button, input, select, textarea')
+    .querySelectorAll('input, select, textarea')
     .forEach(el => el.setAttribute('readonly', 'readonly'));
 
 var setSubmitText = (el, text) => {
